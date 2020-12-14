@@ -16,17 +16,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.qa.main.dto.EmployeeDTO;
-import com.qa.main.persistence.domain.Employee;
-import com.qa.main.persistence.repo.EmployeeRepo;
+import com.qa.main.dto.TaskDTO;
+import com.qa.main.persistence.domain.Task;
+import com.qa.main.persistence.repo.TaskRepo;
 import com.qa.main.util.SpringBeanUtil;
 
 @SpringBootTest
 @ActiveProfiles("dev")
-public class EmployeeServiceUnitTest {
+public class TaskServiceTest {
 
 	@MockBean
-	private EmployeeRepo repo;
+	private TaskRepo repo;
 
 	@MockBean
 	private SpringBeanUtil util;
@@ -35,24 +35,23 @@ public class EmployeeServiceUnitTest {
 	private ModelMapper mapper;
 
 	@Autowired
-	private EmployeeService service;
+	private TaskService service;
 
-	private EmployeeDTO mapToDTO(Employee employee) {
-		return this.mapper.map(employee, EmployeeDTO.class);
+	private TaskDTO mapToDTO(Task task) {
+		return this.mapper.map(task, TaskDTO.class);
 	}
 
-	private final Employee TEST_1 = new Employee(1l, "Miles");
-	private final Employee TEST_2 = new Employee(2l, "Peter");
-	private final Employee TEST_3 = new Employee(3l, "Gwen");
-	private final Employee TEST_4 = new Employee(2l, "MJ");
-	private final Employee TEST_5 = new Employee(2l, "Genke");
+	private final Task TEST_1 = new Task(1l, "Task 1", "Do the task");
+	private final Task TEST_2 = new Task(1l, "Task 2", "Do the task");
+	private final Task TEST_3 = new Task(1l, "Task 3", "Do the task");
+	private final Task TEST_4 = new Task(1l, "Task 4", "Do the task");
+	private final Task TEST_5 = new Task(1l, "Task 5", "Do the task");
 
-	private List<EmployeeDTO> LISTOFEDTO;
+	private List<TaskDTO> LISTOFEDTO;
 
 	@BeforeEach
 	void init() {
 		LISTOFEDTO = List.of(mapToDTO(TEST_1), mapToDTO(TEST_2), mapToDTO(TEST_3), mapToDTO(TEST_4), mapToDTO(TEST_5));
-
 	}
 
 	@Test
@@ -70,25 +69,31 @@ public class EmployeeServiceUnitTest {
 	}
 
 	@Test
-	void readByID() throws Exception {
-		when(repo.findById(TEST_2.getId())).thenReturn(Optional.of(TEST_2));
-		assertThat(service.readByID(TEST_2.getId())).isEqualTo(mapToDTO(TEST_2));
-		verify(repo, atLeastOnce()).findById(TEST_2.getId());
-	}
-
-	@Test
-	void readByName() throws Exception {
-		when(repo.findByName(TEST_3.getName())).thenReturn(TEST_3);
-		assertThat(service.readByName(TEST_3.getName())).isEqualTo(mapToDTO(TEST_3));
-		verify(repo, atLeastOnce()).findByName(TEST_3.getName());
-	}
-
-	@Test
-	void update() throws Exception {
-		EmployeeDTO eDTO = mapToDTO(TEST_4);
+	void updateTitle() throws Exception {
+		TaskDTO eDTO = mapToDTO(TEST_4);
 		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
 		when(repo.save(TEST_4)).thenReturn(TEST_4);
-		assertThat(service.update(eDTO, TEST_4.getId())).isEqualTo(eDTO);
+		assertThat(service.updateTitle(eDTO, TEST_4.getId())).isEqualTo(eDTO);
+		verify(repo, atLeastOnce()).findById(TEST_4.getId());
+		verify(repo, atLeastOnce()).save(TEST_4);
+	}
+
+	@Test
+	void updateDescription() throws Exception {
+		TaskDTO eDTO = mapToDTO(TEST_4);
+		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
+		when(repo.save(TEST_4)).thenReturn(TEST_4);
+		assertThat(service.updateDescription(eDTO, TEST_4.getId())).isEqualTo(eDTO);
+		verify(repo, atLeastOnce()).findById(TEST_4.getId());
+		verify(repo, atLeastOnce()).save(TEST_4);
+	}
+
+	@Test
+	void updateFinished() throws Exception {
+		TaskDTO eDTO = mapToDTO(TEST_4);
+		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
+		when(repo.save(TEST_4)).thenReturn(TEST_4);
+		assertThat(service.updateFinished(eDTO, TEST_4.getId())).isEqualTo(eDTO);
 		verify(repo, atLeastOnce()).findById(TEST_4.getId());
 		verify(repo, atLeastOnce()).save(TEST_4);
 	}
@@ -100,5 +105,4 @@ public class EmployeeServiceUnitTest {
 		verify(repo, atLeastOnce()).deleteById(TEST_5.getId());
 		verify(repo, atLeastOnce()).existsById(TEST_5.getId());
 	}
-
 }

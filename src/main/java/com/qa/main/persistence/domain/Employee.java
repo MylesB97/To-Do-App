@@ -2,6 +2,7 @@ package com.qa.main.persistence.domain;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
 public class Employee {
@@ -25,10 +27,10 @@ public class Employee {
 
 	@NotNull
 	private String name;
-
-	@OneToMany(mappedBy = "employeee", fetch = FetchType.EAGER)
+//
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private List<Task> task;
+	private List<Task> tasks;
 
 	public Employee(Long id, String name) {
 		super();

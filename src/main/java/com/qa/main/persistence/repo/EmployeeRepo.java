@@ -10,5 +10,5 @@ import com.qa.main.persistence.domain.Employee;
 public interface EmployeeRepo extends JpaRepository<Employee, Long> {
 
 	@Query(value = "SELECT * FROM EMPLOYEE WHERE NAME =?1", nativeQuery = true)
-	Employee findByName(String name);
+	public Employee findByName(String name);
 }

@@ -76,8 +76,35 @@ public class EmployeeControllerUnitTest {
 	}
 
 	// Read by Name
+	@Test
+	void readByName() throws Exception {
+		when(this.service.readByName(TEST_EMPLOYEE_3.getName())).thenReturn(this.mapToDTO(TEST_EMPLOYEE_3));
+		assertThat(new ResponseEntity<EmployeeDTO>(this.mapToDTO(TEST_EMPLOYEE_3), HttpStatus.OK))
+				.isEqualTo(this.controller.readByName(TEST_EMPLOYEE_3.getName()));
+	}
 
 	// Update
+	@Test
+	void updateTest() throws Exception {
+		when(this.service.update(this.mapToDTO(TEST_EMPLOYEE_2), TEST_EMPLOYEE_2.getId()))
+				.thenReturn(this.mapToDTO(TEST_EMPLOYEE_2));
+		assertThat(new ResponseEntity<EmployeeDTO>(this.mapToDTO(TEST_EMPLOYEE_2), HttpStatus.ACCEPTED))
+				.isEqualTo(this.controller.update(TEST_EMPLOYEE_2.getId(), this.mapToDTO(TEST_EMPLOYEE_2)));
+	}
 
 	// Delete
+	@Test
+	void deleteTest() throws Exception {
+		when(this.service.delete(TEST_EMPLOYEE_4.getId())).thenReturn(true);
+		assertThat(new ResponseEntity<EmployeeDTO>(HttpStatus.NO_CONTENT))
+				.isEqualTo(this.controller.delete(TEST_EMPLOYEE_4.getId()));
+	}
+
+	// Delete Test
+	@Test
+	void deleteTestNoEmployee() throws Exception {
+		when(this.service.delete(7l)).thenReturn(false);
+		assertThat(new ResponseEntity<EmployeeDTO>(HttpStatus.INTERNAL_SERVER_ERROR))
+				.isEqualTo(this.controller.delete(7l));
+	}
 }
