@@ -15,5 +15,5 @@ public class EmployeeDTO {
 	private Long id;
 	private String name;
 
-	private List<Task> tasks = new ArrayList<>();
+	private List<Task> ListOfTasks = new ArrayList<>();
 }

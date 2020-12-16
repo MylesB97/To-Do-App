@@ -46,26 +46,26 @@ public class EmployeeController {
 	}
 
 	// Read By ID Method
-	@GetMapping("/read/{id}")
-	public ResponseEntity<EmployeeDTO> readByID(Long id) {
+	@GetMapping("/readByID/{id}")
+	public ResponseEntity<EmployeeDTO> readByID(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(this.service.readByID(id));
 	}
 
 	// Read By Name Method
-	@GetMapping("/read/{name}")
-	public ResponseEntity<EmployeeDTO> readByName(String name) {
+	@GetMapping("/readByName/{name}")
+	public ResponseEntity<EmployeeDTO> readByName(@PathVariable("name") String name) {
 		return ResponseEntity.ok(this.service.readByName(name));
 	}
 
-	// Update Description
+	// Update
 	@PutMapping("/update/{id}")
-	public ResponseEntity<EmployeeDTO> update(@PathVariable Long id, @RequestBody EmployeeDTO eDTO) {
+	public ResponseEntity<EmployeeDTO> update(@PathVariable("id") Long id, @RequestBody EmployeeDTO eDTO) {
 		return new ResponseEntity<>(this.service.update(eDTO, id), HttpStatus.ACCEPTED);
 	}
 
-	// Update Delete
+	// Delete
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<EmployeeDTO> delete(@RequestBody Long id) {
+	public ResponseEntity<EmployeeDTO> delete(@PathVariable("id") Long id) {
 		return this.service.delete(id) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) // If Deletion is successful
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // If the record isn't found
 	}
