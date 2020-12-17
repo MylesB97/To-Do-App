@@ -75,14 +75,6 @@ public class EmployeeControllerUnitTest {
 		verify(this.service, atLeastOnce()).readByID(TEST_EMPLOYEE_5.getId());
 	}
 
-	// Read by Name
-	@Test
-	void readByName() throws Exception {
-		when(this.service.readByName(TEST_EMPLOYEE_3.getName())).thenReturn(this.mapToDTO(TEST_EMPLOYEE_3));
-		assertThat(new ResponseEntity<EmployeeDTO>(this.mapToDTO(TEST_EMPLOYEE_3), HttpStatus.OK))
-				.isEqualTo(this.controller.readByName(TEST_EMPLOYEE_3.getName()));
-	}
-
 	// Update
 	@Test
 	void updateTest() throws Exception {

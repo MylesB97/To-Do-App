@@ -77,13 +77,6 @@ public class EmployeeServiceUnitTest {
 	}
 
 	@Test
-	void readByName() throws Exception {
-		when(repo.findByName(TEST_3.getName())).thenReturn(TEST_3);
-		assertThat(service.readByName(TEST_3.getName())).isEqualTo(mapToDTO(TEST_3));
-		verify(repo, atLeastOnce()).findByName(TEST_3.getName());
-	}
-
-	@Test
 	void update() throws Exception {
 		EmployeeDTO eDTO = mapToDTO(TEST_4);
 		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));

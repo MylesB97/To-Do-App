@@ -25,11 +25,12 @@ function getData(id) {
                     // Inserts Data into Form
                     document.querySelector("input#commentID").value = data.id
                     document.querySelector("input#commentName").value = data.name
-                    //  document.querySelector("input#commentTask").value = data.make
 
+                    //Creation of Table for Tasks
                     let table = document.querySelector("table");
+                    let tasks = Object.keys(data.listOfTasks[0])
 
-                    createTableHead(table, data.listOfTasks);
+                    createTableHead(table, tasks);
                     createTableBody(table, data.listOfTasks);
 
                 });
@@ -54,19 +55,7 @@ document.querySelector("form.viewRecord").addEventListener("submit", function (s
     console.log("Updating Employee Number: " + id + " to Name: " + name)
 
     sendData(data, id)
-    // postData(noteTitle,noteBody)
-});
-
-document.querySelector("form.viewRecord").addEventListener("delete", function (stop) {
-    stop.preventDefault();
-    let formElements = document.querySelector("form.viewRecord").elements;
-    console.log(formElements)
-    let id = formElements["commentID"].value;
-
-    console.log("Deleting Employee Number: " + id)
-
-    deleteByID(id)
-    // postData(noteTitle,noteBody)
+    refresh()
 });
 
 
@@ -86,39 +75,69 @@ function sendData(data, id) {
         });
 }
 
-
-function deleteByID(id) {
-    fetch("http://localhost:9092/employee/delete/" + id, {
-        method: 'delete',
-
-    })
-        .then(function (data) {
-            console.log('Request succeeded with JSON response', data);
-        })
-        .catch(function (error) {
-            console.log('Request failed', error);
-        });
-}
-
 function createTableHead(table, data) {
     let tableHead = table.createTHead();
     let row = tableHead.insertRow();
-    console.log("data", data)
+    console.log("List of Task: ", data)
     for (let keys of data) {
         let th = document.createElement("th");
         let text = document.createTextNode(keys);
         th.appendChild(text);
         row.appendChild(th);
     }
+    let th2 = document.createElement("th")
+    let text2 = document.createTextNode("View");
+    th2.appendChild(text2);
+    row.appendChild(th2);
+    let th3 = document.createElement("th")
+    let text3 = document.createTextNode("Delete");
+    th3.appendChild(text3);
+    row.appendChild(th3);
 }
 
 function createTableBody(table, data) {
-    for (let records of data) {
-            let row = table.insertRow();
-            for (let values in records) {
-                let cell = row.insertCell();
-                let text = document.createTextNode(records[values]);
-                cell.appendChild(text);
-            }
+    for(let records of data){
+        let row = table.insertRow();
+        for(let values in records){
+            let cell = row.insertCell();
+            let text = document.createTextNode(records[values]);
+            cell.appendChild(text);
+        }
+        let newCell = row.insertCell();
+        let myViewButton = document.createElement("a");
+        let myButtonValue = document.createTextNode("View")
+        myViewButton.className = "btn btn-warning";
+        myViewButton.href = "tsk_update.html?id=" + records.id
+        myViewButton.appendChild(myButtonValue);
+        newCell.appendChild(myViewButton)
+        let newCellDelete = row.insertCell();
+        let myDelButton = document.createElement("button");
+        let myButtonValue1 = document.createTextNode("Delete")
+        myDelButton.className = "btn btn-danger";
+        myDelButton.onclick = function () {
+            delTask(records.id);
+            refresh();
+        }
+        myDelButton.appendChild(myButtonValue1);
+        newCellDelete.appendChild(myDelButton)
     }
+}
+
+function delTask(id){
+    fetch("http://localhost:9092/task/delete/" + id, {
+        method: 'DELETE'
+
+    })
+    .then(function(id){
+        console.log('Request response succeeded: Record Deleted  of ID:' + id)
+    })
+    .catch(function (error) {
+        console.log('Request failed', error);
+    });
+}
+
+function refresh() {    
+    setTimeout(function () {
+        location.reload()
+    }, 200);
 }

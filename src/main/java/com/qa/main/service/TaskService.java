@@ -40,25 +40,16 @@ public class TaskService {
 		return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
 	}
 
-	// Update Title
-	public TaskDTO updateTitle(TaskDTO tDTO, Long id) {
+	// Read By ID
+	public TaskDTO readByID(Long id) {
+		return this.mapToDTO(this.repo.findById(id).orElseThrow());
+	}
+
+	// Update
+	public TaskDTO update(TaskDTO tDTO, Long id) {
 		Task toUpdate = this.repo.findById(id).orElseThrow();
 		toUpdate.setTitle(tDTO.getTitle());
-		SpringBeanUtil.mergeNotNull(tDTO, toUpdate);
-		return this.mapToDTO(this.repo.save(toUpdate));
-	}
-
-	// Update Description
-	public TaskDTO updateDescription(TaskDTO tDTO, Long id) {
-		Task toUpdate = this.repo.findById(id).orElseThrow();
 		toUpdate.setDescription(tDTO.getDescription());
-		SpringBeanUtil.mergeNotNull(tDTO, toUpdate);
-		return this.mapToDTO(this.repo.save(toUpdate));
-	}
-
-	// Update Finished
-	public TaskDTO updateFinished(TaskDTO tDTO, Long id) {
-		Task toUpdate = this.repo.findById(id).orElseThrow();
 		toUpdate.setFinished(tDTO.isFinished());
 		SpringBeanUtil.mergeNotNull(tDTO, toUpdate);
 		return this.mapToDTO(this.repo.save(toUpdate));

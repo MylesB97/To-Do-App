@@ -30,7 +30,7 @@ public class Employee {
 
 	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private List<Task> Tasks;
+	private List<Task> ListOfTasks;
 
 	public Employee(Long id, String name) {
 		super();

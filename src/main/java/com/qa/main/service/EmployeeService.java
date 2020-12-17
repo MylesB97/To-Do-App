@@ -43,11 +43,6 @@ public class EmployeeService {
 		return this.mapToDTO(this.repo.findById(id).orElseThrow());
 	}
 
-	// Read By Name
-	public EmployeeDTO readByName(String name) {
-		return this.mapToDTO(this.repo.findByName(name));
-	}
-
 	// Update
 	public EmployeeDTO update(EmployeeDTO eDTO, Long id) {
 		Employee toUpdate = this.repo.findById(id).orElseThrow(); // EmployeenNotFoundException::new

@@ -19,23 +19,11 @@ function createElement(data) {
                 console.log(key)
             }
         }
-
-
-        // myDiv.className = 'alert alert-danger';          //for styling
-        // pid.innerHTML = "ID:" + q.id + "  ||  " + "Employee Name: " + q.name
-        // ptask.innerHTML = "Task: " + q.task;
-        // button.innerHTML = "View/Edit"
-        // button.className = "btn btn-danger"
-        // button.href = "emp_readone.html?id=" + q.id
-        // div.append(pid, ptask, button, newLine);
-        // myDiv.append(div);
-        // myDiv.appendChild(br);
-
     }
 }
 
 
-fetch('http://localhost:9092/employee/read/')
+fetch('http://localhost:9092/task/read/')
     .then(
         function (response) {
             if (response.status !== 200) {
@@ -90,13 +78,13 @@ function createTableHead(table, data) {
 
 
 
-function createTableBody(table, commentData) {
-    for (let commentRecord of commentData) {
+function createTableBody(table, data) {
+    for (let record of data) {
         let row = table.insertRow();
-        for (let values in commentRecord) {
+        for (let values in record) {
             if(values != 'listOfTasks'){
                 let cell = row.insertCell();
-                let text = document.createTextNode(commentRecord[values]);
+                let text = document.createTextNode(record[values]);
                 cell.appendChild(text);
             }
            
@@ -106,7 +94,7 @@ function createTableBody(table, commentData) {
         let myViewButton = document.createElement("a");
         let myButtonValue = document.createTextNode("View")
         myViewButton.className = "btn btn-warning";
-        myViewButton.href = "emp_readone.html?id=" + commentRecord.id
+        myViewButton.href = "tsk_update.html?id=" + record.id
         myViewButton.appendChild(myButtonValue);
         newCell.appendChild(myViewButton)
         let newCellDelete = row.insertCell();
@@ -114,8 +102,8 @@ function createTableBody(table, commentData) {
         let myButtonValue1 = document.createTextNode("Delete")
         myDelButton.className ="btn btn-danger";
         myDelButton.onclick = function(){
-          delEmployee(commentRecord.id);
-          refresh();
+          delTask(record.id);
+          //refresh();
           return false;
     };
         myDelButton.appendChild(myButtonValue1);
@@ -123,14 +111,23 @@ function createTableBody(table, commentData) {
     }
 }
 
-document.querySelector("form.viewRecord2").addEventListener("submit", function (stop) {
+document.querySelector("form.viewRecord3").addEventListener("submit", function (stop) {
     stop.preventDefault();
-    let formElements = document.querySelector("form.viewRecord2").elements;
+    let formElements = document.querySelector("form.viewRecord3").elements;
     console.log(formElements)
-    let name = formElements["commentName"].value;
+    let empID = formElements["commentEID"].value;
+    let title = formElements["commentTitle"].value;
+    let desc = formElements["commentDesc"].value;
+    let finished = formElements["commentFinished"].checked;
+
 
     let data = {
-        "name": name,
+        "title": title,
+        "description": desc,
+        "finished": finished,
+        "employee": {
+            "id":empID
+        }
     }
     console.log(data)
 
@@ -139,7 +136,7 @@ document.querySelector("form.viewRecord2").addEventListener("submit", function (
 });
 
 function sendData(data) {
-    fetch("http://localhost:9092/employee/create", {
+    fetch("http://localhost:9092/task/create", {
         method: 'POST',
         headers: {
             "Content-type": "application/json"
@@ -154,8 +151,8 @@ function sendData(data) {
         });
 }
 
-function delEmployee(id){
-    fetch("http://localhost:9092/employee/delete/" + id, {
+function delTask(id){
+    fetch("http://localhost:9092/task/delete/" + id, {
         method: 'DELETE'
 
     })

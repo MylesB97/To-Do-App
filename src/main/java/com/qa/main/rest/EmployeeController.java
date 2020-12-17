@@ -51,12 +51,6 @@ public class EmployeeController {
 		return ResponseEntity.ok(this.service.readByID(id));
 	}
 
-	// Read By Name Method
-	@GetMapping("/readByName/{name}")
-	public ResponseEntity<EmployeeDTO> readByName(@PathVariable("name") String name) {
-		return ResponseEntity.ok(this.service.readByName(name));
-	}
-
 	// Update
 	@PutMapping("/update/{id}")
 	public ResponseEntity<EmployeeDTO> update(@PathVariable("id") Long id, @RequestBody EmployeeDTO eDTO) {

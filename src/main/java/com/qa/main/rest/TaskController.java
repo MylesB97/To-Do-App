@@ -45,27 +45,20 @@ public class TaskController {
 		return ResponseEntity.ok(this.service.readAll());
 	}
 
+	@GetMapping("/readByID/{id}")
+	public ResponseEntity<TaskDTO> readByID(@PathVariable("id") Long id) {
+		return ResponseEntity.ok(this.service.readByID(id));
+	}
+
 	// Update Title
-	@PutMapping("/update-title/{id}")
-	public ResponseEntity<TaskDTO> updateTitle(@PathVariable Long id, @RequestBody TaskDTO tDTO) {
-		return new ResponseEntity<>(this.service.updateTitle(tDTO, id), HttpStatus.ACCEPTED);
-	}
-
-	// Update Description
-	@PutMapping("/update-desc/{id}")
-	public ResponseEntity<TaskDTO> updateDesc(@PathVariable Long id, @RequestBody TaskDTO tDTO) {
-		return new ResponseEntity<>(this.service.updateDescription(tDTO, id), HttpStatus.ACCEPTED);
-	}
-
-	// Update Finished
-	@PutMapping("/update-finished/{id}")
-	public ResponseEntity<TaskDTO> updateFinished(@PathVariable Long id, @RequestBody TaskDTO tDTO) {
-		return new ResponseEntity<>(this.service.updateFinished(tDTO, id), HttpStatus.ACCEPTED);
+	@PutMapping("/update/{id}")
+	public ResponseEntity<TaskDTO> update(@PathVariable("id") Long id, @RequestBody TaskDTO tDTO) {
+		return new ResponseEntity<>(this.service.update(tDTO, id), HttpStatus.ACCEPTED);
 	}
 
 	// Update Delete
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<TaskDTO> delete(@RequestBody Long id) {
+	public ResponseEntity<TaskDTO> delete(@PathVariable("id") Long id) {
 		return this.service.delete(id) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) // If Deletion is successful
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // If the record isn't found
 	}

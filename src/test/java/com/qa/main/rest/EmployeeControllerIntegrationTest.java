@@ -89,16 +89,6 @@ public class EmployeeControllerIntegrationTest {
 		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkContent).andExpect(checkBody);
 	}
 
-//	@Test
-//	void readByNameTest() throws Exception {
-//		RequestBuilder request = get(URI + "/readByName/" + TEST_3.getId());
-//		ResultMatcher checkStatus = status().isOk();
-//		ResultMatcher checkContent = content().contentType(MediaType.APPLICATION_JSON);
-//		ResultMatcher checkBody = jsonPath("name").value(TEST_3.getName());
-//
-//		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkContent).andExpect(checkBody);
-//	}
-
 	@Test
 	void updateTest() throws Exception {
 		EmployeeDTO UpdatedDTO = mapToDTO(new Employee("Aaron"));
