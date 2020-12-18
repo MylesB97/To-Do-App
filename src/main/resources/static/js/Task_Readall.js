@@ -36,7 +36,7 @@ fetch('http://localhost:9092/task/read/')
             response.json().then(function (commentData) {
 
                 console.log(commentData)
-                console.log(commentData[0].employee)
+                console.log(commentData[0])
 
                 createElement(commentData)
 
@@ -94,7 +94,7 @@ function createTableBody(table, data) {
         let myViewButton = document.createElement("a");
         let myButtonValue = document.createTextNode("View")
         myViewButton.className = "btn btn-warning";
-        myViewButton.href = "tsk_update.html?id=" + record.id
+        myViewButton.href = "task_update.html?id=" + record.id
         myViewButton.appendChild(myButtonValue);
         newCell.appendChild(myViewButton)
         let newCellDelete = row.insertCell();
@@ -103,7 +103,7 @@ function createTableBody(table, data) {
         myDelButton.className ="btn btn-danger";
         myDelButton.onclick = function(){
           delTask(record.id);
-          //refresh();
+          refresh();
           return false;
     };
         myDelButton.appendChild(myButtonValue1);

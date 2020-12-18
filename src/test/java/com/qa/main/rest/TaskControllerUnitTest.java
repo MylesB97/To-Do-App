@@ -65,6 +65,15 @@ public class TaskControllerUnitTest {
 		verify(this.service, atLeastOnce()).readAll();
 	}
 
+	// Read by ID
+	@Test
+	void readByIDTest() throws Exception {
+		when(this.service.readByID(TEST_TASK_5.getId())).thenReturn(this.mapToDTO(TEST_TASK_5));
+		assertThat(new ResponseEntity<TaskDTO>(this.mapToDTO(TEST_TASK_5), HttpStatus.OK))
+				.isEqualTo(this.controller.readByID(TEST_TASK_5.getId()));
+		verify(this.service, atLeastOnce()).readByID(TEST_TASK_5.getId());
+	}
+
 	// Update Title
 	@Test
 	void updateTest() throws Exception {
@@ -74,26 +83,6 @@ public class TaskControllerUnitTest {
 				.isEqualTo(this.controller.update(TEST_TASK_4.getId(), this.mapToDTO(TEST_TASK_4)));
 		verify(this.service, atLeastOnce()).update(this.mapToDTO(TEST_TASK_4), TEST_TASK_4.getId());
 	}
-//
-//	// Update Description
-//	@Test
-//	void updateDescTest() throws Exception {
-//		when(this.service.updateDescription(this.mapToDTO(TEST_TASK_2), TEST_TASK_2.getId()))
-//				.thenReturn(this.mapToDTO(TEST_TASK_2));
-//		assertThat(new ResponseEntity<TaskDTO>(this.mapToDTO(TEST_TASK_2), HttpStatus.ACCEPTED))
-//				.isEqualTo(this.controller.updateDesc(TEST_TASK_2.getId(), this.mapToDTO(TEST_TASK_2)));
-//		verify(this.service, atLeastOnce()).updateDescription(this.mapToDTO(TEST_TASK_2), TEST_TASK_2.getId());
-//	}
-//
-//	// Update Finished
-//	@Test
-//	void updateFinishedTest() throws Exception {
-//		when(this.service.updateFinished(this.mapToDTO(TEST_TASK_3), TEST_TASK_3.getId()))
-//				.thenReturn(this.mapToDTO(TEST_TASK_3));
-//		assertThat(new ResponseEntity<TaskDTO>(this.mapToDTO(TEST_TASK_3), HttpStatus.ACCEPTED))
-//				.isEqualTo(this.controller.updateFinished(TEST_TASK_3.getId(), this.mapToDTO(TEST_TASK_3)));
-//		verify(this.service, atLeastOnce()).updateFinished(this.mapToDTO(TEST_TASK_3), TEST_TASK_3.getId());
-//	}
 
 	// Delete
 	@Test

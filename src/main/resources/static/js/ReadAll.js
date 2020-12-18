@@ -48,7 +48,6 @@ fetch('http://localhost:9092/employee/read/')
             response.json().then(function (commentData) {
 
                 console.log(commentData)
-                console.log(commentData[0].employee)
 
                 createElement(commentData)
 
@@ -71,11 +70,11 @@ function createTableHead(table, data) {
     let row = tableHead.insertRow();
     console.log("data", data)
     for (let keys of data) {
-        if(keys != 'listOfTasks'){
+        if (keys != 'listOfTasks') {
             let th = document.createElement("th");
-        let text = document.createTextNode(keys);
-        th.appendChild(text);
-        row.appendChild(th);
+            let text = document.createTextNode(keys);
+            th.appendChild(text);
+            row.appendChild(th);
         }
     }
     let th2 = document.createElement("th")
@@ -90,34 +89,34 @@ function createTableHead(table, data) {
 
 
 
-function createTableBody(table, commentData) {
-    for (let commentRecord of commentData) {
+function createTableBody(table, data) {
+    for (let record of data) {
         let row = table.insertRow();
-        for (let values in commentRecord) {
-            if(values != 'listOfTasks'){
+        for (let values in record) {
+            if (values != 'listOfTasks') {
                 let cell = row.insertCell();
-                let text = document.createTextNode(commentRecord[values]);
+                let text = document.createTextNode(record[values]);
                 cell.appendChild(text);
             }
-           
+
         }
 
         let newCell = row.insertCell();
         let myViewButton = document.createElement("a");
         let myButtonValue = document.createTextNode("View")
         myViewButton.className = "btn btn-warning";
-        myViewButton.href = "emp_readone.html?id=" + commentRecord.id
+        myViewButton.href = "emp_update.html?id=" + record.id
         myViewButton.appendChild(myButtonValue);
         newCell.appendChild(myViewButton)
         let newCellDelete = row.insertCell();
         let myDelButton = document.createElement("button");
         let myButtonValue1 = document.createTextNode("Delete")
-        myDelButton.className ="btn btn-danger";
-        myDelButton.onclick = function(){
-          delEmployee(commentRecord.id);
-          refresh();
-          return false;
-    };
+        myDelButton.className = "btn btn-danger";
+        myDelButton.onclick = function () {
+            delEmployee(record.id);
+            refresh();
+            return false;
+        };
         myDelButton.appendChild(myButtonValue1);
         newCellDelete.appendChild(myDelButton)
     }
@@ -154,20 +153,20 @@ function sendData(data) {
         });
 }
 
-function delEmployee(id){
+function delEmployee(id) {
     fetch("http://localhost:9092/employee/delete/" + id, {
         method: 'DELETE'
 
     })
-    .then(function(id){
-        console.log('Request response succeeded: Record Deleted  of ID:' + id)
-    })
-    .catch(function (error) {
-        console.log('Request failed', error);
-    });
+        .then(function (id) {
+            console.log('Request response succeeded: Record Deleted  of ID:' + id)
+        })
+        .catch(function (error) {
+            console.log('Request failed', error);
+        });
 }
 
-function refresh() {    
+function refresh() {
     setTimeout(function () {
         location.reload()
     }, 200);

@@ -107,7 +107,7 @@ function createTableBody(table, data) {
         let myViewButton = document.createElement("a");
         let myButtonValue = document.createTextNode("View")
         myViewButton.className = "btn btn-warning";
-        myViewButton.href = "tsk_update.html?id=" + records.id
+        myViewButton.href = "task_update.html?id=" + records.id
         myViewButton.appendChild(myButtonValue);
         newCell.appendChild(myViewButton)
         let newCellDelete = row.insertCell();
