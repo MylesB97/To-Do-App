@@ -69,7 +69,7 @@ public class TaskServiceTest {
 	}
 
 	@Test
-	void update() throws Exception {
+	void updateTest() throws Exception {
 		TaskDTO eDTO = mapToDTO(TEST_4);
 		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
 		when(repo.save(TEST_4)).thenReturn(TEST_4);
@@ -78,28 +78,8 @@ public class TaskServiceTest {
 		verify(repo, atLeastOnce()).save(TEST_4);
 	}
 
-//	@Test
-//	void updateDescription() throws Exception {
-//		TaskDTO eDTO = mapToDTO(TEST_4);
-//		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
-//		when(repo.save(TEST_4)).thenReturn(TEST_4);
-//		assertThat(service.updateDescription(eDTO, TEST_4.getId())).isEqualTo(eDTO);
-//		verify(repo, atLeastOnce()).findById(TEST_4.getId());
-//		verify(repo, atLeastOnce()).save(TEST_4);
-//	}
-//
-//	@Test
-//	void updateFinished() throws Exception {
-//		TaskDTO eDTO = mapToDTO(TEST_4);
-//		when(repo.findById(TEST_4.getId())).thenReturn(Optional.of(TEST_4));
-//		when(repo.save(TEST_4)).thenReturn(TEST_4);
-//		assertThat(service.updateFinished(eDTO, TEST_4.getId())).isEqualTo(eDTO);
-//		verify(repo, atLeastOnce()).findById(TEST_4.getId());
-//		verify(repo, atLeastOnce()).save(TEST_4);
-//	}
-
 	@Test
-	void delete() throws Exception {
+	void deleteTest() throws Exception {
 		when(repo.existsById(TEST_5.getId())).thenReturn(false);
 		assertThat(service.delete(TEST_5.getId())).isEqualTo(true);
 		verify(repo, atLeastOnce()).deleteById(TEST_5.getId());
